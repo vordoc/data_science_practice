@@ -42,3 +42,103 @@ for word in doc:
 		print(chunk.strip())
 
 
+print('\n--------------------------------------------------------------\n')
+
+
+txt_1 = 'List is arguably the most useful type in the Python programming language.'
+
+nlp_1 = spacy.load('en_core_web_sm')
+doc_1 = nlp_1(txt_1)
+
+'''перебираем слова предложения в цикле внутри спискового включения, 
+заменяя нулями те слова, вершины для которых не находятся справа'''
+head_lefts = [t.text if t in t.head.lefts else 0 for t in doc_1]
+print(head_lefts)
+
+print('\n--------------------------------------------------------------\n')
+
+'''Получившийся список head_lefts содержит на один элемент больше, чем количество слов 
+в предложении. Это происходит потому, что spaCy фактически разбивает текст 
+на лексемы (tokens), которые могут быть как словами, так и знаками препинания. 
+Последний 0 в списке — это точка в конце предложения.
+
+Теперь нам нужен способ перемещения по этому списку, чтобы найти и извлечь 
+именные группы. Создадим набор фрагментов текста, начинающихся с определенного места и продолжающихся до конца текста. 
+В следующем фрагменте кода будем двигаться пословно от начала до конца текста, на каждой итерации 
+создавая матрицу с позицией вершины.'''
+
+for word in doc:
+	head_lefts = [t.text if t in t.head.lefts else 0 for t in doc_1[word.i:]]
+	print(head_lefts)
+
+print('\n--------------------------------------------------------------\n')
+'''Далее проанализируем каждый фрагмент в поисках первого встретившегося нуля. 
+Слова до нуля (включительно) потенциально могут составлять именную группу.'''
+
+for word in doc:
+	head_lefts = [t.text if t in t.head.lefts else 0 for t in doc[word.i:]]
+	i0 = head_lefts.index(0)
+	if i0 > 0:
+		noun = [1 if t.pos_ == 'NOUN' or t.pos_ == 'PROPN' else 0 for t in reversed(doc[word.i:word.i+i0 + 1])]
+		try:
+			i1 = noun.index(1) + 1
+		except ValueError:
+			pass
+		print(head_lefts[:i0 + 1])
+		print(doc[word.i + i0 + 1 - i1])
+
+
+'''Теперь можно включить новый код в решение из предыдущего раздела. Собрав 
+все воедино, получим следующий скрипт:'''
+
+print('\n--------------------------------------------------------------\n')
+
+txt = 'List is arguably the most useful type in the Python programming language.'
+nlp = spacy.load('en_core_web_sm')
+doc = nlp(txt)
+stk = []
+
+for w in doc:
+	head_lefts = [1 if t in t.head.lefts else 0 for t in doc[w.i:]]
+	i0 = 0
+	try:
+		i0 = head_lefts.index(0)
+	except ValueError:
+		pass
+	i1 = 0
+	if i0 > 0:
+		noun = [1 if t.pos_ == 'NOUN' or t.pos_ == 'PROPN' else 0 for t in reversed(doc[w.i:w.i+i0 + 1])]
+		try:
+			i1 = noun.index(1)+1
+		except ValueError:
+			pass
+	if w.pos_ == 'NOUN' or w.pos_ == 'PROPN':
+		stk.append(w.text)
+	elif (i1 > 0):
+		stk.append(w.text)
+	elif stk:
+		chunk = ''
+		while stk:
+			chunk = stk.pop() + ' ' + chunk
+		print(chunk.strip())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
