@@ -35,4 +35,3 @@ dict_list[len(dict_list) - 1].setdefault('priority', 'Hi')
 
 pp(dict_list, sort_dicts=False)
 
-
