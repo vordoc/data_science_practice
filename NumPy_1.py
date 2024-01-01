@@ -36,5 +36,29 @@ total_payments = base_salary + bonus
 
 print(total_payments)
 
+print('\n----------------------------------------------------------------\n')
 
 
+"""Найдем наибольшее и наименьшее значение в массиве total_payments, созданном в предыдущем разделе"""
+
+print(total_payments.max())
+
+print(total_payments.min())
+
+print('\n----------------------------------------------------------------\n')
+
+
+"""Можно применять статистические функции по осям массива"""
+
+print(np.amax(total_payments, axis=0))
+
+print(np.amax(total_payments, axis=1))
+
+print('\n----------------------------------------------------------------\n')
+
+
+"""Найдем медиану и среднюю зарплату по каждому сотруднику"""
+
+print(np.median(total_payments, axis=1))
+
+print(np.average(total_payments, axis=1))
