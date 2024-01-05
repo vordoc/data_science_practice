@@ -78,8 +78,12 @@ emps, которые имеют соответствия в salary, выбери
 emps_salary = emps.join(salary, how='inner')
 print(emps_salary)
 
+emps_salary_1 = emps.join(salary, how='right')
+print(emps_salary_1)
 
+emps_salary_2 = emps.join(salary, how='outer')
+print(emps_salary_2)
 
-
-
+emps_salary_3 = emps.join(salary, how='cross')
+print(emps_salary_2)
 
