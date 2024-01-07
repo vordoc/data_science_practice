@@ -2,7 +2,7 @@ from pprint import pprint as pp
 """Представим, что нам нужно распределить огромное количество фотографий
 по группам исходя из того, что на них изображено. Чтобы автоматизировать
 эту задачу, можно начать с инструмента визуального распознавания (visual
-recognition), например Clarifai API, который будет генерировать множество
+recognition), например Clarifai working_with_files_and_API, который будет генерировать множество
 описательных тегов для каждой фотографии.
 
 Затем множества тегов можно сравнить друг с другом с помощью метода intersection().
@@ -79,6 +79,4 @@ for i in range(1, len(photos_list)):
 
 # print(tags_intersection_list)
 pp(photo_groups, sort_dicts=False)
-
-
 
