@@ -11,10 +11,10 @@ try:
 
 	# объявление строк с сотрудниками
 	emps = [
- 	(9001, "Jeff Russell", "sales"),
- 	(9002, "Jane Boorman", "sales"),
- 	(9003, "Tom Heints", "sales")
- 	]
+		(9001, "Jeff Russell", "sales"),
+		(9002, "Jane Boorman", "sales"),
+		(9003, "Tom Heints", "sales")
+	]
 
 	# объявление запроса
 	query_add_emp = ("""INSERT INTO emps (empno, empname, job) VALUES (%s, %s, %s)""")
@@ -25,9 +25,9 @@ try:
 
 	# определение и вставка размеров оклада
 	salary = [
-	(9001, 3000),
-	(9002, 2800),
-	(9003, 2500)
+		(9001, 3000),
+		(9002, 2800),
+		(9003, 2500)
 	]
 
 	query_add_salary = ("""INSERT INTO salary (empno, salary) VALUES (%s, %s)""")
@@ -36,11 +36,11 @@ try:
 
 	# объявление и вставка заказов
 	orders = [
-	(2608, 9001, 35),
-	(2617, 9001, 35),
-	(2620, 9001, 139),
-	(2621, 9002, 95),
-	(2626, 9002, 218)
+		(2608, 9001, 35),
+		(2617, 9001, 35),
+		(2620, 9001, 139),
+		(2621, 9002, 95),
+		(2626, 9002, 218)
 	]
 
 	query_add_order = ("""INSERT INTO orders(pono, empno, total) VALUES (%s, %s, %s)""")
