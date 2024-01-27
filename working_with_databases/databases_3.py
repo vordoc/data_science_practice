@@ -1,4 +1,5 @@
 import yfinance as yf
+from pprint import pprint as pp
 
 """
 Мы создали в БД sampledb новую таблицу stocks используя команды:
@@ -11,7 +12,7 @@ import yfinance as yf
 # определяем пустой список data, который будет заполнен биржевыми данными
 data = []
 # затем определяем список тикеров, по которым хотим извлечь данные
-tickers = ['TSLA', 'FB', 'ORCL', 'AMZN']
+tickers = ['TSLA', 'META', 'ORCL', 'AMZN']
 
 """В цикле передаем каждый тикер из списка tickers в функцию yfinance Ticker(). Функция возвращает объект Ticker. 
 Его метод history() предоставляет данные, связанные с соответствующим тикером. В этом примере мы получаем данные 
@@ -23,8 +24,23 @@ tickers = ['TSLA', 'FB', 'ORCL', 'AMZN']
 for ticker in tickers:
 	tkr = yf.Ticker(ticker)
 	hist = tkr.history(period='5d').reset_index()
+
+	"""далее из полученного датафрейма выбираем только столбцы Date и Close, где значение поля 
+	Close содержит цены акций на конец дня, и преобразуем эти столбцы в массив записей NumPy"""
 	records = hist[['Date', 'Close']].to_records(index=False)
 
-records = list(records)
-records = [(ticker, str(elem[0])[:10], round(elem[1], 2)) for elem in records]
-data = data + records
+	#превращаем данные в список кортежей
+	records = list(records)
+
+	"""Вслед за этим необходимо переформатировать каждый кортеж, чтобы его можно было 
+	вставить в таблицу базы данных stocks в виде строки. Например, значения 
+	колонки Date содержат много лишней информации (часы, минуты, секунды 
+	и т. д.). Взяв только первые 10 символов поля 0 в каждом кортеже, мы извлечем 
+	год, месяц и день, чего вполне достаточно для анализа"""
+	records = [(ticker, str(elem[0])[:10], round(elem[1], 2)) for elem in records]
+
+	"""Наконец, все еще внутри цикла, добавляем кортежи, связанные с тикером, в список data"""
+	data = data + records
+
+pp(data)
+
